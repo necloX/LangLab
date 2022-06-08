@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Irony.Parsing;
+using LangLab;
 namespace LangLab
 {
     [CreateAssetMenu()]
     public class IronyGrammarAsset : CompilationNodeAsset
     {
         public GrammarGraphAsset grammarGraphAsset;
+        [CreateOutputPort]
         public Grammar grammar;
-
         public override void GoThrough()
         {
-            throw new NotImplementedException();
+            base.GoThrough();
+            grammar = new LLGrammar(grammarGraphAsset);
         }
-
         public class LLGrammar : Grammar
         {
             private Dictionary<GrammarNodeAsset, BnfExpression> dictionnary;

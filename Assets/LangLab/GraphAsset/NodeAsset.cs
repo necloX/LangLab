@@ -6,6 +6,7 @@ namespace LangLab
     {
         [HideInInspector]public Vector2 position;
         GraphAsset<NodeType> graph;
+        public GraphAsset<NodeType> Graph { get => graph; }
         [HideInInspector] public LLNodeView<NodeType> nodeView;
         
         public virtual bool Init(GraphAsset<NodeType> graph) 

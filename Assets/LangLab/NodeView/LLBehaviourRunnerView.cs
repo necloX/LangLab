@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace LangLab
 {
-    public abstract class SourceTextAsset : CompilationNodeAsset
+    [NodeViewAttribute(typeof(LLBehaviourRunner))]
+    public class LLBehaviourRunnerView : CompilationNodeView
     {
 
     }

@@ -9,12 +9,11 @@ namespace LangLab
     {
         public bool zeroAllowed;
         public bool moreThanOneAllowed;
-        public List<List<GrammarNodeAsset>> children;
-
+        [HideInInspector]public List<ListGrammarNode> children;
         public void AddChildAt(GrammarNodeAsset child,int id)
         {
-            if(children == null) children = new List<List<GrammarNodeAsset>>();
-            while (children.Count < id+1) { children.Add(new List<GrammarNodeAsset>());}
+            if(children == null) children = new List<ListGrammarNode>();
+            while (children.Count < id+1) { children.Add(new ListGrammarNode());}
             children[id].Add(child);
         }
         public void RemoveChildAt(GrammarNodeAsset child, int id)
@@ -23,5 +22,10 @@ namespace LangLab
             if (children.Count < id + 1) return;
             children[id].Remove(child);
         }
+    }
+    [Serializable]
+    public class ListGrammarNode : List<GrammarNodeAsset>
+    {
+        public List<GrammarNodeAsset> children;
     }
 }

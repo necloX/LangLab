@@ -3,30 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using Irony.Parsing;
-using Irony.Ast;
+
+
 namespace LangLab
 {
     [CreateAssetMenu()]
     public class IronyParserAsset : CompilationNodeAsset
     {
-        public IronyGrammarAsset grammarAsset; //-------------------Input
-        public SourceTextAsset sourceTextAsset;//--------------Input
-        public ParseTree parseTree;
+        [CreateInputPort]
+        public Grammar grammar;
+        [CreateInputPort]
+        public string sourceText;
+        ParseTree parseTree;
+        [CreateOutputPort]
+        public LLAst ast;
         Parser parser;
         public override void GoThrough()
         {
-            var language = new LanguageData(grammarAsset.grammar);
+            base.GoThrough();
+            var language = new LanguageData(grammar);
             parser = new Parser(language);
             if (parser == null) throw new System.Exception("Failed to produce parser");
-            parseTree = parser.Parse(sourceTextAsset.GetSource());
+            parseTree = parser.Parse(sourceText);
             if(parseTree.HasErrors())
             {
                 parseTree.ParserMessages.ForEach(message => Debug.Log(message.Message+" at "+message.Location.ToString()));
             }
             else
             {
-                //Debug.Log(((LLIronyNonTerminal)parseTree.Root.Term).grammarNodeAsset);
-                //Util.FormatParseTree( parseTree);
                 Debug.Log(DispAst(parseTree.Root, 0));
             }
         }

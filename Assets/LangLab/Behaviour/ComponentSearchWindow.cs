@@ -9,10 +9,10 @@ namespace LangLab
 {
     public class ComponentSearchWindow : ScriptableObject, ISearchWindowProvider
     {
-        LLBehaviourHolder behaviourHolder;
-        public void Initialize(LLBehaviourHolder behaviourHolder)
+        GrammarNodeAsset grammarNode;
+        public void Initialize(GrammarNodeAsset grammarNode)
         {
-            this.behaviourHolder = behaviourHolder;
+            this.grammarNode = grammarNode;
         }
         public List<SearchTreeEntry> CreateSearchTree(SearchWindowContext context)
         {
@@ -33,8 +33,7 @@ namespace LangLab
 
         public bool OnSelectEntry(SearchTreeEntry SearchTreeEntry, SearchWindowContext context)
         {
-            if (behaviourHolder.futurBehaviors == null) behaviourHolder.futurBehaviors = new List<FuturBehaviour>();
-            behaviourHolder.futurBehaviors.Add(new FuturBehaviour() {type =  SearchTreeEntry.userData as Type });
+            grammarNode.AddBehaviour(SearchTreeEntry.userData as Type);
             return true;
         }
     }

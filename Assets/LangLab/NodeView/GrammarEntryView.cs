@@ -14,26 +14,24 @@ namespace LangLab
         {
             throw new System.Exception("There is no input port for an entry node");
         }
-
         public override void Initialize(GrammarNodeAsset node)
         {
             base.Initialize(node);
             outputPort = InstantiatePort(Orientation.Vertical, Direction.Output, Port.Capacity.Multi, typeof(bool));
             outputPort.name = "";
-            outputPort.portColor = Color.green;
+            outputPort.portColor = Color.blue;
             outputContainer.Add(outputPort);
         }
-
-        public override void UpdateAssetFromEdges()
+        public override void UpdateAssetFromEdges(Edge edge)
         {
             List<GrammarNodeAsset> newChildren = new List<GrammarNodeAsset>();
-            foreach (var edge in outputPort.connections)
+            foreach (var e in outputPort.connections)
             {
-                newChildren.Add((edge.input.node as LLNodeView<GrammarNodeAsset>).nodeAsset);
+                newChildren.Add((e.input.node as LLNodeView<GrammarNodeAsset>).nodeAsset);
             }
+            newChildren.Add((edge.input.node as LLNodeView<GrammarNodeAsset>).nodeAsset);
             (nodeAsset as EntryNodeAsset).children = newChildren;
         }
-
         public override void UpdateEdgesFromAsset(LLGraphView<GrammarNodeAsset> graphView)
         {
             var entryNodeAsset = nodeAsset as EntryNodeAsset;

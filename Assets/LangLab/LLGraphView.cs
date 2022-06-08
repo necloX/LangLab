@@ -48,7 +48,6 @@ namespace LangLab
             gridBackground.StretchToParentSize();
             Insert(0, gridBackground);
         }
-
         internal void PopulateView(GraphAsset<NodeType> graphAsset)
         {
             this.graphAsset = graphAsset;
@@ -73,10 +72,6 @@ namespace LangLab
             }
             return null;
         }
-        void OnMouseDown()
-        {
-
-        }
         private GraphViewChange OnGraphViewChanged(GraphViewChange graphViewChange)
         {
             if(graphViewChange.elementsToRemove != null)
@@ -91,8 +86,8 @@ namespace LangLab
                     {
                         var from = (LLNodeView<NodeType>)edge.output.node;
                         var to = (LLNodeView<NodeType>)edge.input.node;
-                        from.UpdateAssetFromEdges();
-                        to.UpdateAssetFromEdges();
+                        from.UpdateAssetFromEdges(null);
+                        to.UpdateAssetFromEdges(null);
                     }
                     AssetDatabase.SaveAssets();
                 }
@@ -103,8 +98,8 @@ namespace LangLab
                 {
                     var from = (LLNodeView<NodeType>)edge.output.node;
                     var to = (LLNodeView<NodeType>)edge.input.node;
-                    from.UpdateAssetFromEdges();
-                    to.UpdateAssetFromEdges();
+                    from.UpdateAssetFromEdges(edge);
+                    to.UpdateAssetFromEdges(edge);
                     AssetDatabase.SaveAssets();
                 }
             }

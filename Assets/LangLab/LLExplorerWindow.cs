@@ -8,6 +8,8 @@ namespace LangLab
 {
     public class LLExplorerWindow : EditorWindow
     {
+        static LLExplorerWindow instance;
+        public static LLExplorerWindow Instance { get { return instance; } }
         LLGraphView<GrammarNodeAsset> grammarView;
         LLGraphView<LLAstNode> astView;
         LLGraphView<MatchingGraphNode> matchingGraphView;
@@ -15,7 +17,7 @@ namespace LangLab
         [MenuItem("Window/LangLab/GraphExplorer")]
         public static void Open()
         {
-            GetWindow<LLExplorerWindow>("Test graph");
+            GetWindow<LLExplorerWindow>("Graph explorer");
         }
         private void OnEnable()
         {
@@ -23,6 +25,7 @@ namespace LangLab
             AddGraphView(astView);
             AddGraphView(matchingGraphView);
             AddGraphView(compilationView);
+            instance = this;
             OnSelectionChange();
         }
         [OnOpenAsset]
@@ -53,6 +56,29 @@ namespace LangLab
             rootVisualElement.Clear();
             rootVisualElement.Add(graphView);
             return graphView;
+        }
+        public void SwitchTo<NodeType>(GraphAsset<NodeType> graphAsset) where NodeType : NodeAsset<NodeType>
+        {
+            if (typeof(NodeType) == typeof(GrammarNodeAsset)) 
+            {
+                grammarView = SetGraphView(grammarView);
+                grammarView.PopulateView(graphAsset as GraphAsset<GrammarNodeAsset>);
+            }
+            if (typeof(NodeType) == typeof(LLAst))
+            {
+                astView = SetGraphView(astView);
+                astView.PopulateView(graphAsset as GraphAsset<LLAstNode>);
+            }
+            if (typeof(NodeType) == typeof(MatchingGraphNode))
+            {
+                matchingGraphView = SetGraphView(matchingGraphView);
+                matchingGraphView.PopulateView(graphAsset as GraphAsset<MatchingGraphNode>);
+            }
+            if (typeof(NodeType) == typeof(CompilationNodeAsset))
+            {
+                compilationView = SetGraphView(compilationView);
+                compilationView.PopulateView(graphAsset as GraphAsset<CompilationNodeAsset>);
+            }
         }
         private void OnSelectionChange()
         { 

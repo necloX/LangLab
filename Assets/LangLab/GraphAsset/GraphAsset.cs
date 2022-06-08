@@ -40,7 +40,6 @@ namespace LangLab
         {
             node.Clean(this);
             nodes.Remove(node);
-
             AssetDatabase.RemoveObjectFromAsset(node);
             AssetDatabase.SaveAssets();
         }

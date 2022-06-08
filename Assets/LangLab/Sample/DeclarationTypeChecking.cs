@@ -8,7 +8,9 @@ namespace LangLab.Sample
     {
         public KeyTermTerminalNode integerKeyTerm;
         public KeyTermTerminalNode stringKeyTerm;
+        [Match]
         public LLAstNode varIdentifier;
+        [Match]
         public LLAstNode typeKeyTerm;
         public override SampleType EvaluateType(Environment<SampleType> environment)
         {

@@ -5,7 +5,9 @@ namespace LangLab.Sample
 {
     public class BinaryExpressionTypeChecking : SimpleTypeChecking
     {
+        [Match]
         public LLAstNode leftOperand;
+        [Match]
         public LLAstNode rightOperand;
         public override SampleType EvaluateType(Environment<SampleType> environment)
         {

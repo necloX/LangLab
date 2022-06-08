@@ -6,10 +6,24 @@ using System;
 
 public class MatchingGraphNode : NodeAsset<MatchingGraphNode>
 {
-    public GrammarNodeAsset grammarNode;
-    public List<MatchingGraphNode> matchingNodes;
-    public List<MatchingGraphNode> GetMatchingNodeChildren()
+    public List<MatchingGraphNode> children;
+    bool isRoot;
+    public bool IsRoot { get { return isRoot; } }
+    public override bool Init(GraphAsset<MatchingGraphNode> graph)
     {
-        return matchingNodes;
+        base.Init(graph);
+        var matchingGraph = graph as MatchingGraph;
+        if (matchingGraph.root == null)
+        {
+            matchingGraph.root = this;
+            isRoot = true;
+        }
+        return true;
+    }
+    public override void Clean(GraphAsset<MatchingGraphNode> graph)
+    {
+        base.Clean(graph);
+        var matchingGraph = graph as MatchingGraph;
+        if (isRoot) matchingGraph.root = null;
     }
 }

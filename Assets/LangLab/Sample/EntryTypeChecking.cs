@@ -5,6 +5,7 @@ namespace LangLab.Sample
 {
     public class EntryTypeChecking : LLBehaviour
     {
+        [Match]
         LLAstNode statementTypeCheking;
         public override void Execute()
         {

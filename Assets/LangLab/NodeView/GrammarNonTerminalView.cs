@@ -14,7 +14,6 @@ namespace LangLab
         public override void Initialize(GrammarNodeAsset node)
         {
             base.Initialize(node);
-
             Button addBranch = new Button()
             {
                 text = "Add"
@@ -22,12 +21,10 @@ namespace LangLab
             outputContainer.Add(addBranch);
             inputPort = InstantiatePort(Orientation.Vertical, Direction.Input, Port.Capacity.Multi, typeof(bool));
             inputPort.name = "Input";
-            
+            inputPort.portColor = Color.green;
             inputContainer.Add(inputPort);
-            addBranch.clicked += AddOutput;
             outputPorts = new List<Port>();
-
-
+            addBranch.clicked += AddOutput;
         }
         void AddOutput()
         {
@@ -40,6 +37,7 @@ namespace LangLab
                 text = "X"
             };
             outputPort.Add(deleteBranchButton);
+            outputPort.portColor = Color.green;
             deleteBranchButton.clicked += () =>
             {
                 outputPorts.Remove(outputPort);
@@ -54,21 +52,28 @@ namespace LangLab
             }
             outputPorts = new List<Port>();
         }
-        public override void UpdateAssetFromEdges()
+        public override void UpdateAssetFromEdges(Edge edge)
         {
-            List<List<GrammarNodeAsset>> newChildren = new List<List<GrammarNodeAsset>>();
+            List<ListGrammarNode> newChildren = new List<ListGrammarNode>();
             foreach (var port in outputPorts)
             {
-                List<GrammarNodeAsset> children = new List<GrammarNodeAsset>();
+                ListGrammarNode children = new ListGrammarNode();
                 newChildren.Add(children);
-                foreach (var edge in port.connections)
+                foreach (var e in port.connections)
                 {
-                    var child = edge.input.node as LLNodeView<GrammarNodeAsset>;
+                    var child = e.input.node as LLNodeView<GrammarNodeAsset>;
                     children.Add(child.nodeAsset);
+                }
+                if(edge != null)
+                {
+                    if (edge.input.node != this)
+                    {
+                        var newchild = edge.input.node as LLNodeView<GrammarNodeAsset>;
+                        children.Add(newchild.nodeAsset);
+                    }
                 }
             }
             (nodeAsset as NonTerminalNode).children = newChildren;
-            
         }
 
         public override Port GetInputPort() => inputPort;

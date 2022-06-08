@@ -15,27 +15,8 @@ namespace LangLab
         {
             base.SetPosition(new Rect(node.position, Vector2.zero));
             this.nodeAsset = node;
-
-            TextField nodeName = new TextField()
-            {
-                value = node.name,
-            };
-            nodeName.RegisterCallback<ChangeEvent<string>>(evt => nodeAsset.name = nodeName.value);
-            titleContainer.Clear();
-            titleContainer.style.backgroundColor = Color.white;
-            titleContainer.Insert(0, nodeName);
-            mainContainer.Insert(0, inputContainer);
-
-            Button openInInspector = new Button()
-            {
-                text = "Behaviors"
-            };
-            titleContainer.Add(openInInspector);
-            openInInspector.clicked += () =>
-            {
-                
-                Selection.activeObject = (nodeAsset as GrammarNodeAsset).BehaviourHolder;
-            };
+            titleContainer.style.backgroundColor = Color.grey;
+            
         }
         public override void SetPosition(Rect newPos)
         {
@@ -65,7 +46,7 @@ namespace LangLab
             return null;
         }
         
-        public abstract void UpdateAssetFromEdges();
+        public abstract void UpdateAssetFromEdges(Edge edge);
         public abstract void UpdateEdgesFromAsset(LLGraphView<NodeType> graphView);
     }
 }

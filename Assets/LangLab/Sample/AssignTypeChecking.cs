@@ -8,9 +8,12 @@ namespace LangLab.Sample
     {
         KeyTermTerminalNode integerKeyTerm;
         KeyTermTerminalNode stringKeyTerm;
-        LLAstNode typeKeyTerm;
-        LLAstNode varIdentifier;
-        LLAstNode expression;
+        [Match]
+        public LLAstNode typeKeyTerm;
+        [Match]
+        public LLAstNode varIdentifier;
+        [Match]
+        public LLAstNode expression;
         public override SampleType EvaluateType(Environment<SampleType> environment)
         {
             expression.GetComponent<ExpressionTypeChecking>();

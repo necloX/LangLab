@@ -5,26 +5,30 @@ using UnityEditor;
 using UnityEngine;
 using LangLab;
 
-[CreateAssetMenu(menuName = "Grammar Node/Entry")]
-public class EntryNodeAsset : GrammarNodeAsset
+namespace LangLab
 {
-    public List<GrammarNodeAsset> children;
-    public override bool Init(GraphAsset<GrammarNodeAsset> graph)
+    public class EntryNodeAsset : GrammarNodeAsset
     {
-        base.Init(graph);
-        if(((GrammarGraphAsset)graph).entryNode != null) 
-        { 
-            Debug.Log("There is already an entry node in this graph."); 
-            return false;
-        }
-        else
+        public List<GrammarNodeAsset> children;
+        public override bool Init(GraphAsset<GrammarNodeAsset> graph)
         {
-            (graph as GrammarGraphAsset).entryNode = this;
-            return true;
+            base.Init(graph);
+            if (((GrammarGraphAsset)graph).entryNode != null)
+            {
+                Debug.Log("There is already an entry node in this graph.");
+                return false;
+            }
+            else
+            {
+                (graph as GrammarGraphAsset).entryNode = this;
+                return true;
+            }
         }
-    }
-    public override void Clean(GraphAsset<GrammarNodeAsset> graph)
-    {
-        (graph as GrammarGraphAsset).entryNode = null;
+        public override void Clean(GraphAsset<GrammarNodeAsset> graph)
+        {
+            base.Clean(graph);
+            (graph as GrammarGraphAsset).entryNode = null;
+        }
     }
 }
+

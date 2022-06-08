@@ -10,7 +10,7 @@ namespace LangLab
     /// </summary>
     public class MatchingGraph : GraphAsset<MatchingGraphNode>
     {
-        public MatchingGraphNode MatchingGraphNode;
+        public MatchingGraphNode root;
     }
 }
 
